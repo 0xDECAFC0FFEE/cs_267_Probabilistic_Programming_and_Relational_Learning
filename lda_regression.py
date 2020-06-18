@@ -22,7 +22,7 @@ from sklearn.metrics import mean_squared_error
 from math import sqrt
 
 #Load ratings data
-ratingsdata = pd.read_csv('ratings.csv', names=['userId','movieId','rating','timestamp'], skiprows=1)
+ratingsdata = pd.read_csv('./ml-1m/ratings.dat', names=['userId','movieId','rating','timestamp'], skiprows=1, sep="::", engine='python')
 ratingsdata = ratingsdata.drop(columns='timestamp')
 ratingstraining = ratingsdata.sample(frac=0.8, random_state=1)
 ratingstest = ratingsdata.drop(ratingstraining.index)
@@ -31,16 +31,10 @@ ratingstrainingscore = ratingstraining['rating']
 ratingstrainingtest = ratingstest['rating']
 
 
-# Load movie data
-movies = pd.read_csv("movies.csv",names=['movieID', 'title', 'genres'], skiprows=1)
-moviestraining = movies.sample(frac=0.8, random_state=1)
-moviestest = movies.drop(moviestraining.index)
-
-
 # Load LDA if it exists
 
-number_components = 5 # number of possible ratings
-
+number_components = 10 # number of possible ratings
+print("Starting")
 start_time = time.time()
 if path.exists('modelratings.joblib'):
     lda = load('modelratings.joblib')
